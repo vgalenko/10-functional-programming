@@ -48,9 +48,7 @@ var app = app || {};
   });
   */
 
-    Article.all = rawData.map(articleObject => {
-      return new Article(articleObject);
-    });
+    Article.all = rawData.map(articleObject => new Article(articleObject));
   }
 
   Article.fetchAll = callback => {
