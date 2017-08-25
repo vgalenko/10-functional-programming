@@ -47,10 +47,10 @@ var app = app || {};
     Article.all.push(new Article(ele));
   });
   */
-    rows.forEach(function(ele) {
-      Article.all.push(new Article(ele));
+
+    Article.all = rawData.map(articleObject => {
+      return new Article(articleObject);
     });
-    //let articleData = rawData.map();
   }
 
   Article.fetchAll = callback => {
