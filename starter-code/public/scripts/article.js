@@ -61,32 +61,53 @@ var app = app || {};
     )
   };
 
-  // TODO: Chain together a `map` and a `reduce` call to get a rough count of all words in all articles.
+  // DONE: Chain together a `map` and a `reduce` call to get a rough count of all words in all articles.
   Article.numWordsAll = () => {
-    return Article.all.map(function(articleObj){
-      console.log(articleObj.body)
+    return Article.all.map(articleObj => {
       return articleObj.body;
-    }).reduce(function(previous, current){
-      let val = previous.split(' ').length + current.split(' ').length;
-    })
+    }).reduce((acc, curr) => {
+      acc += curr.split(' ').length
+      return acc
+    }, 0)
   };
 
-  // TODO: Chain together a `map` and a `reduce` call to produce an array of unique author names. You will
+  Article.removeDuplicates = function(value, index, array) {
+    return array.indexOf(value) === index;
+  }
+
+  // DONE: Chain together a `map` and a `reduce` call to produce an array of unique author names. You will
   // probably need to use the optional accumulator argument in your reduce call.
   Article.allAuthors = () => {
-    return Article.all.map().reduce();
+    return Article.all.map(authorObj => {
+      return authorObj.author;
+    }).reduce((acc, curr) => {
+      if (acc.indexOf(curr) === -1) {
+        acc.push(curr)
+      }
+      return acc
+    }, []);
   };
 
   Article.numWordsByAuthor = () => {
     return Article.allAuthors().map(author => {
-      // TODO: Transform each author string into an object with properties for
+
+      // DONE: Transform each author string into an object with properties for
       // the author's name, as well as the total number of words across all articles
       // written by the specified author.
       // HINT: This .map should be setup to return an object literal with two properties.
       // The first property should be pretty straightforward, but you will need to chain
       // some combination of filter, map, and reduce to get the value for the second
       // property.
-
+      return {
+        name: author,
+        words:  Article.all.filter(article => article.author === author)
+          .map(articleObj => {
+            return articleObj.body
+          }
+        ).reduce((curr) => {
+          return curr
+        }).split(' ').length
+      }
     })
   };
 
